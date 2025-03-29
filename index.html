@@ -3,34 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dolphin Agency Rolette</title>
+    <title>دولفين روليت</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <h1 class="gold-text">Moscow-Card22</h1>
+    <div class="container">
+        <div id="settingsButton" class="settings-button">⚙️</div>
+        
+        <div id="settingsPanel" class="settings-panel hidden">
+            <h3>إعدادات</h3>
+            <label for="color1Input">اللون 1:</label>
+            <input type="color" id="color1Input" value="#FF9800">
+            <label for="color2Input">اللون 2:</label>
+            <input type="color" id="color2Input" value="#FFD700">
+            <button id="saveLastTenButton">حفظ آخر 10 أسماء</button>
+            <textarea id="lastTenNames" rows="5" cols="20" readonly></textarea>
+            <button id="saveResultsButton">حفظ النتائج الأخيرة</button>
+            <textarea id="lastResults" rows="5" cols="20" readonly></textarea>
+            <button id="exportButton">تصدير الأسماء</button>
+            <button id="importButton">استيراد الأسماء</button>
+        </div>
 
-    <div>
-        <input type="text" id="nameInput" placeholder="أدخل اسم">
-        <button id="addButton">أضف اسم</button>
+        <h1>دولفين روليت</h1>
+
+        <div id="wheel-container">
+            <canvas id="wheelCanvas"></canvas>
+        </div>
+
+        <div id="nameInputContainer">
+            <input type="text" id="nameInput" placeholder="أدخل الاسم">
+            <button id="addButton">إضافة اسم</button>
+        </div>
+
+        <ul id="nameList"></ul>
+
+        <div id="buttonContainer">
+            <button id="spinButton">اسحب اسم</button>
+            <button id="resetButton">إعادة تعيين</button>
+        </div>
+
+        <div id="winnerDisplay" class="winner-display hidden"></div>
     </div>
-
-    <ul id="nameList"></ul>
-
-    <button id="settingsButton">⚙️ إعدادات</button>
-    <div id="settingsPanel" class="hidden">
-        <label for="lastTenNames">أدخل آخر 10 أسماء (رتبهم):</label>
-        <textarea id="lastTenNames" rows="5" placeholder="اسم في كل سطر"></textarea>
-        <button id="saveLastTenButton">Dolphin</button>
-    </div>
-
-    <button id="spinButton">Spin</button>
-
-    <canvas id="wheelCanvas" width="400" height="400"></canvas>
-
-    <button id="resetButton">إعادة تعيين</button>
-
-    <div id="winnerDisplay" class="hidden"></div>
 
     <script src="script.js"></script>
 </body>

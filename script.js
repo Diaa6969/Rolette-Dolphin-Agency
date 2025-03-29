@@ -1,4 +1,4 @@
-const addButton = document.getElementById('addButton');
+[03:25, 29.3.2025] Diaa: const addButton = document.getElementById('addButton');
 const spinButton = document.getElementById('spinButton');
 const resetButton = document.getElementById('resetButton');
 const nameInput = document.getElementById('nameInput');
@@ -13,9 +13,56 @@ const winnerDisplay = document.getElementById('winnerDisplay');
 
 let names = [];
 let lastTenNames = [];
-let wheelAngle = 0;
+let wh…
+[04:09, 29.3.2025] Diaa: const addButton = document.getElementById('addButton');
+const spinButton = document.getElementById('spinButton');
+const resetButton = document.getElementById('resetButton');
+const nameInput = document.getElementById('nameInput');
+const nameList = document.getElementById('nameList');
+const wheelCanvas = document.getElementById('wheelCanvas');
+const ctx = wheelCanvas.getContext('2d');
+const settingsButton = document.getElementById('settingsButton');
+const settingsPanel = document.getElementById('settingsPanel');
+const lastTenNamesTextArea = document.getElementById('lastTenNames');
+const saveLastTenButton = document.getElementById('saveLastTenButton');
+const winnerDisplay = document.getElementById('winnerDisplay');
+const color1Input = document.getElementById('color1Input');
+const color2Input = document.getElementById('color2Input');
+const exportButton = document.getElementById('exportButton');
+const importButton = document.getElementById('importButton');
+const lastResultsTextArea = document.getElementById('lastResults');
+const saveResultsButton = document.getElementById('saveResultsButton');
 
-// تحديث قائمة الأسماء
+let names = [];
+let lastTenNames = [];
+let lastResults = [];
+let wheelAngle = 0;
+let spinSound = new Audio('spin.mp3');
+let winSound = new Audio('win.mp3');
+
+// إضافة 100 اسم عشوائي
+function generateRandomNames() {
+    const sampleNames = [
+        "أحمد", "محمد", "سامي", "خالد", "حسن", "فاطمة", "سارة", "أمينة", "نادر", "حسين",
+        "علاء", "ريم", "سعيد", "زهرة", "محمود", "شريف", "سميرة", "عادل", "فوزية", "مروان",
+        "هالة", "أمل", "نورا", "إيمان", "خديجة", "أيمن", "سليم", "جميلة", "منال", "فارس",
+        "محمود", "لبنى", "نور", "سعاد", "طارق", "حسام", "زكي", "جمال", "عبدالله", "ماجد",
+        "عائشة", "مها", "رضا", "عمر", "نورهان", "سارة", "فؤاد", "نادية", "هاشم", "أحمد",
+        "رحاب", "ميساء", "خالد", "مروة", "شيماء", "سمير", "جميلة", "غادة", "حبيبة", "إيمان",
+        "يوسف", "كريمة", "سلمى", "إيمان", "باسم", "خديجة", "رشا", "سعاد", "فرح", "رنا",
+        "محمد", "نوال", "سوسن", "شريف", "سامية", "رؤى", "فؤاد", "مهند", "غادة", "سمير",
+        "آية", "مريم", "يوسف", "لين", "سماح", "سامي", "سيد", "رامي", "غادة", "فادي",
+        "سامي", "لينا", "ليلى", "نادر", "سامي", "هند", "ليلى", "مروة", "سعيد", "إيناس",
+        "نادية", "شادية", "أحمد", "سامي", "حنان", "جورج", "هيفاء", "محمود", "زهراء",
+        "سلام", "وسام", "مروان", "غادة", "دعاء", "فاطمة", "مرام", "ملاك", "سيرين", "زينب",
+        "لبنى", "شادية", "غسان", "ناهد", "رجاء", "نورا", "محمود", "نبيلة", "سامي", "سيف",
+        "معتز", "أمل", "ياسر", "حنين", "ليلى", "ياسمين", "خليل", "غادة", "مها", "رشيد",
+        "لينا", "مهدي", "عماد", "بلال", "آية"
+    ];
+    names = [...names, ...sampleNames];
+}
+
+// تحديث قائمة الأسماء المعروضة
 function updateNameList() {
     nameList.innerHTML = '';
     names.forEach((name, index) => {
@@ -25,110 +72,76 @@ function updateNameList() {
     });
 }
 
-// إضافة اسم إلى القائمة
+// إضافة اسم عند النقر على الزر
 addButton.addEventListener('click', () => {
     const name = nameInput.value.trim();
-    if (name) {
+    if (name && !names.includes(name)) {
         names.push(name);
-        nameInput.value = '';  
         updateNameList();
-        drawWheel();
+        nameInput.value = '';  // مسح حقل الاسم
     }
 });
 
-// رسم العجلة
-function drawWheel() {
-    ctx.clearRect(0, 0, wheelCanvas.width, wheelCanvas.height);
-    if (names.length === 0) return;
-
-    let shuffledNames = shuffleArray([...names]);
-    let finalNames = shuffledNames.slice(0, shuffledNames.length - 10).concat(lastTenNames);
-
-    const anglePerSection = 2 * Math.PI / finalNames.length;
-
-    finalNames.forEach((name, index) => {
-        const startAngle = index * anglePerSection;
-        const endAngle = (index + 1) * anglePerSection;
-
-        ctx.fillStyle = index % 2 === 0 ? '#FFEB3B' : '#FF9800';
-        ctx.beginPath();
-        ctx.arc(200, 200, 200, startAngle, endAngle);
-        ctx.lineTo(200, 200);
-        ctx.fill();
-        ctx.stroke();
-
-        ctx.fillStyle = '#000';
-        ctx.font = '16px Arial';
-        ctx.fillText(name, 200 + Math.cos(startAngle + anglePerSection / 2) * 100, 200 + Math.sin(startAngle + anglePerSection / 2) * 100);
-    });
-}
-
-// تدوير العجلة
+// سحب اسم عشوائي عند النقر على الزر
 spinButton.addEventListener('click', () => {
     if (names.length > 0) {
-        const spinDuration = 5; 
-        const spins = Math.random() * 3 + 3;
-        let spinStartTime = Date.now();
+        const winner = names[Math.floor(Math.random() * names.length)];
+        winnerDisplay.textContent = الفائز هو: ${winner};
+        winnerDisplay.classList.add('show');
+        winSound.play();
 
-        function spinWheel() {
-            const elapsedTime = (Date.now() - spinStartTime) / 1000;
-            const progress = Math.min(elapsedTime / spinDuration, 1);
-
-            wheelAngle = spins * Math.PI * 2 * progress;
-
-            ctx.save();
-            ctx.translate(200, 200);
-            ctx.rotate(wheelAngle);
-            ctx.translate(-200, -200);
-            drawWheel();
-            ctx.restore();
-
-            if (progress < 1) {
-                requestAnimationFrame(spinWheel);
-            } else {
-                const selectedIndex = Math.floor((wheelAngle / (2 * Math.PI)) * names.length) % names.length;
-                const selectedName = names[selectedIndex];
-
-                if (lastTenNames.includes(selectedName)) {
-                    winnerDisplay.innerHTML = يلا بينا اديك خدت حاجة من الدنيا!<br><strong>${selectedName}</strong>;
-                } else {
-                    winnerDisplay.innerHTML = يلا بينا يا وجه النحس اقلب وجهك!<br><strong>${selectedName}</strong>;
-                }
-
-                winnerDisplay.classList.add('show');
-
-                setTimeout(() => {
-                    winnerDisplay.classList.remove('show');
-                }, 4000);
-            }
+        // حفظ الاسم الفائز في نتائج
+        lastResults.push(winner);
+        if (lastResults.length > 10) {
+            lastResults.shift();
         }
-        spinWheel();
-    } else {
-        alert('لا توجد أسماء للاختيار منها!');
+        lastResultsTextArea.value = lastResults.join("\n");
+
+        // إضافة الاسم الفائز إلى آخر 10 أسماء
+        lastTenNames.unshift(winner);
+        if (lastTenNames.length > 10) {
+            lastTenNames.pop();
+        }
+        lastTenNamesTextArea.value = lastTenNames.join("\n");
     }
 });
 
-// إعادة تعيين العجلة
+// إعادة تعيين القائمة
 resetButton.addEventListener('click', () => {
     names = [];
     lastTenNames = [];
+    lastResults = [];
     updateNameList();
-    ctx.clearRect(0, 0, wheelCanvas.width, wheelCanvas.height);
+    winnerDisplay.classList.remove('show');
+    lastTenNamesTextArea.value = '';
+    lastResultsTextArea.value = '';
 });
 
-// إظهار/إخفاء الإعدادات
+// حفظ نتائج الأسماء الفائزة
+saveResultsButton.addEventListener('click', () => {
+    localStorage.setItem('lastResults', JSON.stringify(lastResults));
+});
+
+// استيراد الأسماء
+importButton.addEventListener('click', () => {
+    const importedNames = prompt("أدخل الأسماء المنقولة (فصلها بفواصل)").split(",");
+    names = [...names, ...importedNames.map(name => name.trim())];
+    updateNameList();
+});
+
+// تصدير الأسماء
+exportButton.addEventListener('click', () => {
+    const exportedNames = names.join(", ");
+    const blob = new Blob([exportedNames], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "exported_names.txt";
+    a.click();
+    URL.revokeObjectURL(url);
+});
+
+// فتح وإغلاق لوحة الإعدادات
 settingsButton.addEventListener('click', () => {
     settingsPanel.classList.toggle('hidden');
 });
-
-// حفظ الأسماء لآخر 10 أسماء
-saveLastTenButton.addEventListener('click', () => {
-    lastTenNames = lastTenNamesTextArea.value.trim().split('\n').map(name => name.trim()).filter(name => name.length > 0);
-    alert('تم حفظ الأسماء الأخيرة');
-    drawWheel();
-});
-
-// خلط الأسماء
-function shuffleArray(array) {
-    return array.sort(() => Math.random() - 0.5);
-}
