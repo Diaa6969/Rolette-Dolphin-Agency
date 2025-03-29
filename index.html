@@ -8,26 +8,29 @@
 </head>
 <body>
 
-    <h1>Dolphin Agency Rolette</h1>
+    <h1 class="gold-text">Moscow-Card22</h1>
 
     <div>
-        <input type="text" id="nameInput" placeholder="أدخل اسم" />
+        <input type="text" id="nameInput" placeholder="أدخل اسم">
         <button id="addButton">أضف اسم</button>
     </div>
+
     <ul id="nameList"></ul>
 
-    <button id="settingsButton">إعدادات</button>
+    <button id="settingsButton">⚙️ إعدادات</button>
     <div id="settingsPanel" class="hidden">
-        <label for="lastTenNames">أدخل الأسماء التي ستبقى في آخر عشرة:</label>
-        <textarea id="lastTenNames" rows="5" placeholder="أدخل الأسماء، واحد في كل سطر"></textarea>
+        <label for="lastTenNames">أدخل آخر 10 أسماء (رتبهم):</label>
+        <textarea id="lastTenNames" rows="5" placeholder="اسم في كل سطر"></textarea>
         <button id="saveLastTenButton">Dolphin</button>
     </div>
 
-    <button id="spinButton">Moscow-Card22</button>
+    <button id="spinButton">Spin</button>
 
     <canvas id="wheelCanvas" width="400" height="400"></canvas>
 
     <button id="resetButton">إعادة تعيين</button>
+
+    <div id="winnerDisplay" class="hidden"></div>
 
     <script src="script.js"></script>
 </body>

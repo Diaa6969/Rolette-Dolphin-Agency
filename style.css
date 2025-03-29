@@ -1,0 +1,69 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding-top: 50px;
+    color: white;
+}
+
+h1.gold-text {
+    color: gold;
+    font-size: 32px;
+    font-weight: bold;
+}
+
+#wheelCanvas {
+    border: 2px solid white;
+    margin-top: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.hidden {
+    display: none;
+}
+
+#settingsPanel {
+    margin-top: 20px;
+}
+
+button {
+    background-color: #FF9800;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #FF5722;
+}
+
+textarea {
+    width: 300px;
+    height: 100px;
+    color: black;
+}
+
+#winnerDisplay {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 24px;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+}
+
+#winnerDisplay.show {
+    display: block;
+}
